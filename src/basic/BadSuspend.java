@@ -8,8 +8,6 @@ package basic;
  **/
 public class BadSuspend {
     private static Object object = new Object();
-    private static ChangeObjectThread t1 = new ChangeObjectThread("t1");
-    private static ChangeObjectThread t2 = new ChangeObjectThread("t2");
 
     private static class ChangeObjectThread extends Thread{
         public ChangeObjectThread(String name){
@@ -28,6 +26,8 @@ public class BadSuspend {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        ChangeObjectThread t1 = new ChangeObjectThread("t1");
+        ChangeObjectThread t2 = new ChangeObjectThread("t2");
         t1.start();
         Thread.sleep(100);
         t2.start();
