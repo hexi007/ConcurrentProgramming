@@ -16,7 +16,7 @@ public class SimpleWaitNotify {
             synchronized (object){
                 System.out.println(System.currentTimeMillis() + " : T1 start!");
                 try {
-                    System.out.println(System.currentTimeMillis() + " T1 wait for object...");
+                    System.out.println(System.currentTimeMillis() + " : T1 wait for object...");
                     //wait()执行之后会释放监视器，使其他等待object的线程不因为T1的休眠而无法正常执行
                     object.wait();
                     //被唤醒并不会立即执行后续代码，而是重新尝试获取监视器，如果无法获取还必须等待这个监视器
