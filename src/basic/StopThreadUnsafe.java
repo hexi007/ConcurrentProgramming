@@ -84,7 +84,7 @@ public class StopThreadUnsafe {
     /**
      * Description  一个线程负责读，不断创建线程改变user并结束时暴力stop.
      * 当线程写对象时，读线程必须等待，所以读线程看不到写了一半的对象
-     * 写线程写到一半即写了id被暴力stop，读线程读user时则对象id和name就处于不一致的状态
+     * 写线程写到一半即写了id被暴力stop，都对象那个则对象id和name就处于不一致的状态
      */
     public static void main(String[] args) throws InterruptedException {
         new ReadUserThread().start();
