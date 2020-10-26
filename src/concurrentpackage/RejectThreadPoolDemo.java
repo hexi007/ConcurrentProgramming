@@ -31,16 +31,11 @@ public class RejectThreadPoolDemo {
                 //多余线程存活时间和该时间的单位
                 0L, TimeUnit.MILLISECONDS,
                 //设置了界限的无界任务队列
-                new LinkedBlockingQueue<Runnable>(10),
+                new LinkedBlockingQueue<>(10),
                 //默认线程工厂
                 Executors.defaultThreadFactory(),
-                //自定义拒绝策略
-                new RejectedExecutionHandler() {
-                    @Override
-                    public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                        System.out.println(r.toString() + " is discard");
-                    }
-                });
+                //自定义拒绝策略，重写RejectedExecutionHandler()，下面是lambda表达式
+                (r, executor) -> System.out.println(r.toString() + " is discard"));
         for(int i = 0; i < Integer.MAX_VALUE; i++){
             es.submit(myTask);
             Thread.sleep(10);
