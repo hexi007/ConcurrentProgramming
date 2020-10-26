@@ -17,7 +17,7 @@ public class CyclicBarrierDemo {
 
     public static class Soldier implements Runnable {
 
-        private String soldierName;
+        private final String soldierName;
         private final CyclicBarrier cyclic;
 
         public Soldier(String soldierName, CyclicBarrier cyclic) {
@@ -52,19 +52,19 @@ public class CyclicBarrierDemo {
     public static class BarrierRun implements Runnable {
 
         boolean flag;
-        int N;
+        int n;
 
         public BarrierRun(boolean flag, int n) {
             this.flag = flag;
-            this.N = n;
+            this.n = n;
         }
 
         @Override
         public void run() {
             if(flag) {
-                System.out.println("司令 ： [士兵 " + N + " 个，任务完成]");
+                System.out.println("司令 ： [士兵 " + n + " 个，任务完成]");
             } else {
-                System.out.println("司令 ： [士兵 " + N + " 个，集合完毕]");
+                System.out.println("司令 ： [士兵 " + n + " 个，集合完毕]");
                 flag = true;
             }
         }
@@ -78,7 +78,7 @@ public class CyclicBarrierDemo {
         CyclicBarrier cyclic = new CyclicBarrier(N, new BarrierRun(flag, N));
         System.out.println("集合队伍");
         for(int i = 0; i < N; i++){
-            System.out.println("士兵 " + i + "报道");
+            System.out.println("士兵 " + i + " 报道");
             allSoldier[i] = new Thread(new Soldier("士兵 " + i, cyclic));
             allSoldier[i].start();
         }
