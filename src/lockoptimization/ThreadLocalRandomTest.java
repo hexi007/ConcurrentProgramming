@@ -13,7 +13,7 @@ public class ThreadLocalRandomTest {
 
     public static final int TASK_COUNT = 1000_0000;
     public static final int THREAD_COUNT = 4;
-    private static ExecutorService exe = Executors.newFixedThreadPool(THREAD_COUNT);
+    private static final ExecutorService EXE = Executors.newFixedThreadPool(THREAD_COUNT);
 
     public static Random rnd = new Random(123);
     /**
@@ -63,7 +63,7 @@ public class ThreadLocalRandomTest {
 
         //MODE 为 0 的模式
         for (int i = 0; i < THREAD_COUNT; i++) {
-            ret[i] = exe.submit(new RndTask(0));
+            ret[i] = EXE.submit(new RndTask(0));
         }
         long totalTime = 0;
         for (int i = 0; i < THREAD_COUNT; i++) {
@@ -73,14 +73,14 @@ public class ThreadLocalRandomTest {
 
         //MODE 为 1 的模式
         for (int i = 0; i < THREAD_COUNT; i++) {
-            ret[i] = exe.submit(new RndTask(1));
+            ret[i] = EXE.submit(new RndTask(1));
         }
         long totalTime1 = 0;
         for (int i = 0; i < THREAD_COUNT; i++) {
             totalTime1 += ret[i].get();
         }
         System.out.println("使用 ThreadLocal 包装 Random 实例平均时间 ： " + totalTime1  / THREAD_COUNT + " ms");
-        System.out.println("使用 ThreadLocal 包装 比共享同一个快 " + totalTime / totalTime1 + " 倍");
-        exe.shutdown();
+        System.out.println("使用 ThreadLocal 包装 比共享同一个 Random 快 " + totalTime / totalTime1 + " 倍");
+        EXE.shutdown();
     }
 }
