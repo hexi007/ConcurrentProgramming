@@ -1,4 +1,4 @@
-package concurrentpackage;
+package concurrent_package;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
