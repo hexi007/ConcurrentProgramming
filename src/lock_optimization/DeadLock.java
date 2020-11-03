@@ -1,4 +1,4 @@
-package lockoptimization;
+package lock_optimization;
 
 /**
  * description 哲学家进餐

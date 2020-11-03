@@ -1,4 +1,4 @@
-package lockoptimization;
+package lock_optimization;
 
 import java.util.Random;
 import java.util.concurrent.*;

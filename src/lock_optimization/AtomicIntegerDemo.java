@@ -1,4 +1,4 @@
-package lockoptimization;
+package lock_optimization;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
