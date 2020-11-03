@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * description 等待线程结束和谦让

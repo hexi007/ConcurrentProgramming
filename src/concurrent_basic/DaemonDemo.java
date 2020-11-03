@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * description 守护线程,如果用户线程全部结束，则守护线程也会结束

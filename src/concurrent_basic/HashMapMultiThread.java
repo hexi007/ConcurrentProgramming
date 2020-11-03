@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 import java.util.HashMap;
 import java.util.Map;

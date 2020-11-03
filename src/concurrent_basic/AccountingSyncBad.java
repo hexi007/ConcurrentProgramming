@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * description synchronized关键字

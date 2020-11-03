@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * description volatile不能代替锁，它只确保了变量的可见性

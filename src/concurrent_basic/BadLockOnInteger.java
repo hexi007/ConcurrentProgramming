@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * description 错误的加锁

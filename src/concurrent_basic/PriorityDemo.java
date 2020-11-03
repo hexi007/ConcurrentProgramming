@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * description 线程优先级，java线程优先级是映射在操作系统上的，设置优先级也可能出现优先级反转

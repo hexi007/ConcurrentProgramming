@@ -1,4 +1,4 @@
-package basic;
+package concurrent_basic;
 
 /**
  * 强制停止线程不安全
