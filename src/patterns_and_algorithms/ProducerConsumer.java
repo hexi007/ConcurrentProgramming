@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 生产者和消费者模式对生产者和消费者线程进行解耦，优化了整体结构。 <br/>
  * 由于缓冲区的存在，允许生产者线程和消费者线程在执行性能上的性能差异 <br/>
  * 一定程度缓解了性能瓶颈对系统性能的影响 <br/>
+ * 使用 ConcurrentLinkedQueue 可以提升性能，因为它使用了大量 CAS 操作 <br/>
  * create 2020-11-03 19:23
  *
  * @author 27771
