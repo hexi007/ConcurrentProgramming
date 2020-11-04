@@ -1,9 +1,7 @@
 package patterns_and_algorithms;
 
-import java.text.MessageFormat;
-import java.util.Random;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * description 生产者消费者模式 <br/>
@@ -17,24 +15,26 @@ import java.util.concurrent.atomic.AtomicInteger;
  **/
 public class ProducerConsumer {
 
+    private static final long TASK_SIZE = 20_0000_0000;
+
     /**
      *  BlockingQueue 作为共享内存缓冲区维护任务或数据队列
      */
     private static final BlockingQueue<PcData> QUEUE =
-            new LinkedBlockingDeque<>(10);
+            new LinkedBlockingQueue<>(10);
 
     /**
      *  生产任务，或者相关任务的数据
      */
     private final static class PcData {
         //数据
-        private final int intData;
+        private final long intData;
 
-        private PcData(int intData) {
+        private PcData(long intData) {
             this.intData = intData;
         }
 
-        public int getData() {
+        public long getData() {
             return intData;
         }
 
@@ -53,25 +53,20 @@ public class ProducerConsumer {
 
         private volatile boolean isRunning = true;
         //总数，原子操作
-        private static AtomicInteger count = new AtomicInteger();
-        private static final int SLEEP_TIME = 1000;
+        private static AtomicLong count = new AtomicLong();
+        private static final int SLEEP_TIME = 100;
 
         @Override
         public void run() {
-            PcData pcData = null;
-            Random r = new Random();
-
-            System.out.println("start producer id = " + Thread.currentThread().getId());
             try {
-                while (isRunning) {
-                    Thread.sleep(r.nextInt(SLEEP_TIME));
-                    //构造任务队列
-                    pcData = new PcData(count.incrementAndGet());
-                    System.out.println(pcData + " is put into queue");
+                while (isRunning  && count.get() < TASK_SIZE) {
+                    PcData pcData = new PcData(count.incrementAndGet());
+                    //System.out.println(pcData.getData() + " is put into queue");
                     //提交任务到内存缓冲区
                     if(!QUEUE.offer(pcData, 2 , TimeUnit.MILLISECONDS)){
-                        System.err.println("failed to put data : " + pcData);
+                        //System.err.println("failed to put data : " + pcData);
                     }
+                    //Thread.sleep(SLEEP_TIME);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -90,22 +85,19 @@ public class ProducerConsumer {
     private static class Consumer implements Runnable {
 
         private volatile boolean isRunning = true;
-        private static final int SLEEP_TIME = 1000;
+        private static final int SLEEP_TIME = 100;
 
         @Override
         public void run() {
-            System.out.println("start consumer id = " +
-                    Thread.currentThread().getId());
-            Random r = new Random();
             try {
                 while (isRunning) {
                     //从内存缓冲区提取任务
                     PcData pcData = QUEUE.take();
                     //处理任务
-                    int res = pcData.getData() * pcData.getData();
-                    System.out.println(MessageFormat.format("consume result :  {0} * {1} = {2}",
-                            pcData.getData(), pcData.getData(), res));
-                    Thread.sleep(r.nextInt(SLEEP_TIME));
+                    long res = pcData.getData() * pcData.getData();
+//                    System.out.println(MessageFormat.format("consume result :  {0} * {1} = {2}",
+//                            pcData.getData(), pcData.getData(), res));
+                    //Thread.sleep(SLEEP_TIME);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -119,35 +111,30 @@ public class ProducerConsumer {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        //建立生产者和消费者
-        Producer producer1 = new Producer();
-        Producer producer2 = new Producer();
-        Producer producer3 = new Producer();
-
+        //建立消费者
         Consumer consumer1 = new Consumer();
         Consumer consumer2 = new Consumer();
         Consumer consumer3 = new Consumer();
 
         //建立线程池
         ExecutorService service = Executors.newCachedThreadPool();
-        //允许生产者和消费者
-        service.execute(producer1);
-        service.execute(producer2);
-        service.execute(producer3);
         service.execute(consumer1);
         service.execute(consumer2);
         service.execute(consumer3);
 
-        Thread.sleep(10 * 1000);
+        long startTime = System.currentTimeMillis();
 
-        //停止生产者和消费者
-        producer1.stop();
-        producer2.stop();
-        producer3.stop();
-        consumer1.stop();
-        consumer2.stop();
-        consumer3.stop();
+        Thread producer1 = new Thread(new Producer());
+        Thread producer2 = new Thread(new Producer());
+        Thread producer3 = new Thread(new Producer());
+        producer1.start();
+        producer2.start();
+        producer3.start();
+        producer1.join();
+        producer2.join();
+        producer3.join();
 
-        service.shutdown();
+        long endTime = System.currentTimeMillis();
+        System.out.println("程序运行时间：" + (endTime - startTime) + " ms");
     }
 }
