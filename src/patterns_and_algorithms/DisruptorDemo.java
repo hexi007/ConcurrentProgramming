@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.*;
 
 /**
- * description Disruptor 生产者和消费者
+ * Description: disruptor 生产者和消费者
  * create 2020-11-03 20:38
  *
  * @author 27771
@@ -19,13 +19,13 @@ import java.util.concurrent.*;
 public class DisruptorDemo {
 
     public static class PcData {
-        private long value;
+        private int value;
 
-        public long getValue() {
+        public int getValue() {
             return value;
         }
 
-        public void setValue(long value) {
+        public void setValue(int value) {
             this.value = value;
         }
     }
@@ -42,7 +42,7 @@ public class DisruptorDemo {
 
         @Override
         public void onEvent(PcData pcData) throws Exception {
-            System.out.println(Thread.currentThread().getName() + " Event : -- " +
+            System.out.println(Thread.currentThread().getId() + " Event : -- " +
                     pcData.getValue() * pcData.getValue() + " --");
         }
     }
@@ -54,11 +54,11 @@ public class DisruptorDemo {
             this.ringBuffer = ringBuffer;
         }
 
-        public void pushData(ByteBuffer bb) {
+        public void pushData(int value) {
             long sequence = ringBuffer.next();
             try {
                 PcData pcData = ringBuffer.get(sequence);
-                pcData.setValue(bb.getLong(0));
+                pcData.setValue(value);
             } finally {
                 ringBuffer.publish(sequence);
             }
@@ -89,11 +89,9 @@ public class DisruptorDemo {
 
         RingBuffer<PcData> ringBuffer = disruptor.getRingBuffer();
         Producer producer = new Producer(ringBuffer);
-        ByteBuffer bb = ByteBuffer.allocate(8);
 
-        for(long l = 0; ; l++) {
-            bb.put(0, (byte) l);
-            producer.pushData(bb);
+        for(int l = 0; l < 1000; l++) {
+            producer.pushData(l);
             Thread.sleep(100);
             System.out.println("add data " + (byte)l);
         }
