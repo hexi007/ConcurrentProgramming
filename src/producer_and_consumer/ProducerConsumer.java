@@ -1,4 +1,4 @@
-package patterns_and_algorithms;
+package producer_and_consumer;
 
 import java.text.MessageFormat;
 import java.util.Random;
