@@ -5,7 +5,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * description 并行奇偶交换排序
@@ -87,7 +86,7 @@ public class MultiOddEvenSort {
 
     public static void main(String[] args) throws InterruptedException {
         MultiOddEvenSort m = new MultiOddEvenSort();
-        //m.oddEvenSort();
+        m.oddEvenSort();
         m.pOddEvenSort();
         System.out.println(Arrays.toString(arr));
     }
