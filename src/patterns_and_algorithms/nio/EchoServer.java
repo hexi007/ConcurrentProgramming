@@ -18,7 +18,7 @@ import java.util.concurrent.*;
  *
  * @author 27771
  **/
-public class MultiThreadEchoServer {
+public class EchoServer {
 
     private static final ExecutorService TP = Executors.newCachedThreadPool();
 
