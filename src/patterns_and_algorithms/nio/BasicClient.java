@@ -29,10 +29,7 @@ public class BasicClient {
             writer.flush();
 
             reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            String outputLine;
-            while ((outputLine = reader.readLine()) != null) {
-                System.out.println("from server : " + outputLine);
-            }
+            System.out.println("from server : " + reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
