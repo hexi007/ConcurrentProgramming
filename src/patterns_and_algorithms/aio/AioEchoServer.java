@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException;
 public class AioEchoServer {
 
     public final static int PORT = 8000;
-    private AsynchronousServerSocketChannel server;
+    private final AsynchronousServerSocketChannel server;
 
     public AioEchoServer() throws IOException {
         // 绑定端口，使用 AsynchronousServerSocketChannel 作为异步服务器
