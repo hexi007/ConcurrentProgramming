@@ -53,7 +53,7 @@ public class MethodReference {
         // User::getUserName 显然流内的元素都应该作为调用目标
         // 在这里调用了每一个 User 对象实例的 getUserName() 方法，将 name 作为一个新的流
         // System.out::println 流内的元素会作为方法的参数传入
-        users.stream().map(User::getUserName).forEach((String s) -> System.out.print(s + " "));
+        users.stream().map(User::getUserName).forEach((s) -> System.out.print(s + " "));
         System.out.println();
     }
 
