@@ -30,8 +30,7 @@ public class Lambda {
         // 外部变量不申明成 final 可以编译通过
         int num = 2;
         Function<Integer, Integer> numberConvert = (from) -> from * num;
-        // 报错 java: 从lambda 表达式引用的本地变量必须是最终变量或实际上的最终变量
-        num++;
+        // num++ 会报错 java: 从lambda 表达式引用的本地变量必须是最终变量或实际上的最终变量
         System.out.println(numberConvert.apply(3));
     }
 
